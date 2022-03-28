@@ -37,7 +37,21 @@ final class NullToStrictStringFuncCallArgRector extends \Rector\Core\Rector\Abst
     /**
      * @var array<string, string[]>
      */
-    private const ARG_POSITION_NAME_NULL_TO_STRICT_STRING = ['preg_split' => ['subject'], 'preg_match' => ['subject'], 'preg_match_all' => ['subject'], 'explode' => ['string'], 'strlen' => ['string'], 'str_contains' => ['haystack', 'needle']];
+    private const ARG_POSITION_NAME_NULL_TO_STRICT_STRING = [
+        'preg_split' => ['subject'],
+        'preg_match' => ['subject'],
+        'preg_match_all' => ['subject'],
+        'explode' => ['string'],
+        'strlen' => ['string'],
+        'str_contains' => ['haystack', 'needle'],
+        'str_replace' => ['subject'],
+    ];
+
+    // use $var ?: '' instead of (string) $var
+    private const USE_TERNARY = [
+        'str_replace'
+    ];
+
     /**
      * @readonly
      * @var \Rector\Core\Reflection\ReflectionResolver
@@ -166,7 +180,11 @@ CODE_SAMPLE
         if ($this->isCastedReassign($argValue)) {
             return null;
         }
-        $args[$position]->value = new \PhpParser\Node\Expr\Cast\String_($argValue);
+        if (in_array($funcCall->name->parts[0], self::USE_TERNARY)) {
+            $args[$position]->value = new \PhpParser\Node\Expr\Ternary($argValue, null, new String_(''));
+        } else {
+            $args[$position]->value = new \PhpParser\Node\Expr\Cast\String_($argValue);
+        }
         $funcCall->args = $args;
         return $funcCall;
     }
