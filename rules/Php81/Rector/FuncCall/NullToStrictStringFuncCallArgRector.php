@@ -20,6 +20,8 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
+use PHPStan\Type\NullType;
+use PHPStan\Type\UnionType;
 use Rector\Core\NodeAnalyzer\ArgsAnalyzer;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\Reflection\ReflectionResolver;
@@ -178,6 +180,16 @@ CODE_SAMPLE
             return $funcCall;
         }
         $type = $this->nodeTypeResolver->getType($argValue);
+
+        // Fork: Silverstripe paramtype docblocks are often wrong
+        // e.g. @param string $myparam, when infact it practice it's string|null
+        // we don't know which params should be nullable, so we need ot assume
+        // that all of them are
+        if (!($type instanceof \PhpParser\Node\NullableType)) {
+            var_dump(get_class($type));
+            $type = new \PHPStan\Type\UnionType([$type, new \PHPStan\Type\NullType()]);
+        }
+
         if ($this->nodeTypeAnalyzer->isStringyType($type)) {
             return null;
         }
