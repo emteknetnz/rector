@@ -1,0 +1,61 @@
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+use Rector\Core\Configuration\Option;
+use Rector\Core\ValueObject\PhpVersion;
+use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+
+    // use this to load Page.php which is as parent for things like ErrorPage
+    $parameters->set(Option::BOOTSTRAP_FILES, [
+        __DIR__ . '/app/src/Page.php',
+        __DIR__ . '/app/src/PageController.php',
+        __DIR__ . '/app/src/GraphQLInterfaces.php', // include this if graphql3 installed
+    ]);
+
+    // temporary changes required for framework, reset before commit changes:
+    // - src/View/SSTemplateParser.php - comment out lines 193-4988
+    // - tests/php/Core/Manifest/fixtures/classcontentremover - rename files extensions for 4x files to .xphp
+
+    // paths to refactor; solid alternative to CLI arguments
+    $parameters->set(Option::PATHS, [
+        __DIR__ . '/vendor/dnadesign/silverstripe-elemental', // works
+        __DIR__ . '/vendor/silverstripe/admin',
+        __DIR__ . '/vendor/silverstripe/asset-admin',
+        __DIR__ . '/vendor/silverstripe/assets', // works
+        __DIR__ . '/vendor/silverstripe/behat-extension',
+        __DIR__ . '/vendor/silverstripe/campaign-admin',
+        __DIR__ . '/vendor/silverstripe/cms',
+        __DIR__ . '/vendor/silverstripe/config',
+        __DIR__ . '/vendor/silverstripe/elemental-bannerblock',
+        __DIR__ . '/vendor/silverstripe/elemental-fileblock',
+        __DIR__ . '/vendor/silverstripe/errorpage',
+        __DIR__ . '/vendor/silverstripe/framework', // requires temporarily changes
+        __DIR__ . '/vendor/silverstripe/graphql',
+        __DIR__ . '/vendor/silverstripe/login-forms',
+        __DIR__ . '/vendor/silverstripe/mimevalidator',
+        __DIR__ . '/vendor/silverstripe/mink-facebook-web-driver',
+        __DIR__ . '/vendor/silverstripe/serve',
+        __DIR__ . '/vendor/silverstripe/session-manager',
+        __DIR__ . '/vendor/silverstripe/siteconfig',
+        __DIR__ . '/vendor/silverstripe/testsession',
+        __DIR__ . '/vendor/silverstripe/vendor-plugin',
+        __DIR__ . '/vendor/silverstripe/versioned',
+        __DIR__ . '/vendor/silverstripe/versioned-admin',
+        __DIR__ . '/vendor/symbiote/silverstripe-gridfieldextensions',
+    ]);
+
+    // is your PHP version different from the one your refactor to? [default: your PHP version], uses PHP_VERSION_ID format
+    $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_81);
+
+    // // Path to phpstan with extensions, that PHPStan in Rector uses to determine types
+    // $parameters->set(Option::PHPSTAN_FOR_RECTOR_PATH, getcwd() . '/phpstan-for-config.neon');
+
+    // register single rule
+    $services = $containerConfigurator->services();
+    $services->set(NullToStrictStringFuncCallArgRector::class);
+};

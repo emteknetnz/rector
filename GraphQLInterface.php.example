@@ -1,0 +1,13 @@
+<?php
+
+// copy this to app/src when running rector
+
+namespace SilverStripe\GraphQL\Schema\Interfaces;
+
+interface OperationCreator{}
+interface ModelMutationPlugin{}
+interface ModelOperation{}
+interface ModelQueryPlugin{}
+interface ModelTypePlugin{}
+interface SchemaModelInterface{}
+interface SchemaUpdater{}
