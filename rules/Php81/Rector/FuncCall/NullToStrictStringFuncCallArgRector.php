@@ -55,7 +55,8 @@ final class NullToStrictStringFuncCallArgRector extends \Rector\Core\Rector\Abst
         'strtoupper' => ['string'],
         'strtolower' => ['string'],
         'parse_url' => ['url'],
-        'preg_replace' => ['subject'] // ternary
+        'preg_replace' => ['subject'], // use ternary
+        'htmlspecialchars' => ['string']
     ];
 
     // use $var ?: '' instead of (string) $var. Use this for string|array type of params
@@ -193,6 +194,10 @@ CODE_SAMPLE
             return null;
         }
         if (in_array($funcCall->name->parts[0], self::USE_TERNARY)) {
+            // prevent nesting on subsequent runs
+            if ($argValue instanceof \PhpParser\Node\Expr\Ternary) {
+                return null;
+            }
             $args[$position]->value = new \PhpParser\Node\Expr\Ternary($argValue, null, new String_(''));
         } else {
             $args[$position]->value = new \PhpParser\Node\Expr\Cast\String_($argValue);
@@ -200,6 +205,7 @@ CODE_SAMPLE
         $funcCall->args = $args;
         return $funcCall;
     }
+
     private function isCastedReassign(\PhpParser\Node\Expr $expr) : bool
     {
         return (bool) $this->betterNodeFinder->findFirstPreviousOfNode($expr, function (\PhpParser\Node $subNode) use($expr) : bool {
