@@ -40,17 +40,24 @@ final class PhpDocFromTypeDeclarationDecorator
      */
     public const ADD_RETURN_TYPE_WILL_CHANGE = [
         'PHPStan\\Type\\MixedType' => [
-            'ArrayAccess' => ['offsetGet'], // << this also does not work?
-            // neither of these work
-            'Iterator' => ['current'],
-            'SilverStripe\\Assets\\Storage\\AssetNameGenerator' => ['current'],
+            'IteratorAggregate' => [
+                'getIterator'
+            ],
+            'ArrayAccess' => [
+                'offsetGet',
+                'offsetSet',
+                'offsetUnset',
+                'offsetExists'
+            ],
+            'Iterator' => [
+                'current'
+            ],
         ],
-        'Rector\\StaticTypeMapper\\ValueObject\\Type\\FullyQualifiedObjectType' => [
-            'ArrayAccess' => ['getIterator'], // << this also does not work?
-            // neither of these work
-            'Iterator' => ['current'],
-            'SilverStripe\\Assets\\Storage\\AssetNameGenerator' => ['current'],
-        ]
+        // 'Rector\\StaticTypeMapper\\ValueObject\\Type\\FullyQualifiedObjectType' => [
+        //     'ArrayAccess' => [
+        //         'getIterator'
+        //     ],
+        // ]
     ];
     /**
      * @readonly
