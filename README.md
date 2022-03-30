@@ -4,9 +4,9 @@
 - Added example file rector.php.example
 - Added example file GraphQLInterface.php.example
 
-The purpose of this fork is to get all of Silverstripe PHP 8.1 compatible
+The purpose of this fork is to get all of Silverstripe PHP 8.1 compatible while maintaining PHP 7.4 compatiblity.
 
-You need to run https://github.com/emteknetnz/docblock-return-updater/ first
+First you need to run the task in https://github.com/emteknetnz/docblock-return-updater
 
 # Rector - Instant Upgrades and Automated Refactoring
 
