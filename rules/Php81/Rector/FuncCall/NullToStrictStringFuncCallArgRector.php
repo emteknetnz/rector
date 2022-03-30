@@ -44,12 +44,24 @@ final class NullToStrictStringFuncCallArgRector extends \Rector\Core\Rector\Abst
         'explode' => ['string'],
         'strlen' => ['string'],
         'str_contains' => ['haystack', 'needle'],
-        'str_replace' => ['subject'],
+        // fork updates:
+        'str_replace' => ['subject'], // use ternary
+        'trim' => ['string', 'characters'],
+        'ltrim' => ['string', 'characters'],
+        'rtrim' => ['string', 'characters'],
+        'strpos' => ['haystack', 'needle'],
+        'file_exists' => ['filename'],
+        'basename' => ['path'], // adding 'suffix' will break rector
+        'strtoupper' => ['string'],
+        'strtolower' => ['string'],
+        'parse_url' => ['url'],
+        'preg_replace' => ['subject'] // ternary
     ];
 
-    // use $var ?: '' instead of (string) $var
+    // use $var ?: '' instead of (string) $var. Use this for string|array type of params
     private const USE_TERNARY = [
-        'str_replace'
+        'str_replace',
+        'preg_replace'
     ];
 
     /**
