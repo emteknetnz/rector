@@ -1,3 +1,8 @@
+# Fork notes:
+- Updated rules/Php81/Rector/FuncCall/NullToStrictStringFuncCallArgRector.php
+- Added example file rector.php.example
+- Added example file GraphQLInterface.php.example
+
 # Rector - Instant Upgrades and Automated Refactoring
 
 [![Downloads](https://img.shields.io/packagist/dt/rector/rector.svg?style=flat-square)](https://packagist.org/packages/rector/rector)
