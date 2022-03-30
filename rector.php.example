@@ -19,6 +19,9 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
+    // run with:
+    // rm -rf /tmp/rector_cached_files && vendor/bin/rector process
+
     // use this to load Page.php which is as parent for things like ErrorPage
     $parameters->set(Option::BOOTSTRAP_FILES, [
         __DIR__ . '/app/src/Page.php',
