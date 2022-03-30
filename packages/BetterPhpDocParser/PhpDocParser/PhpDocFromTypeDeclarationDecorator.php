@@ -50,8 +50,15 @@ final class PhpDocFromTypeDeclarationDecorator
                 'offsetExists'
             ],
             'Iterator' => [
-                'current'
+                'current',
+                'key',
+                'next',
+                'rewind',
+                'valid'
             ],
+            'Countable' => [
+                'count'
+            ]
         ],
         // 'Rector\\StaticTypeMapper\\ValueObject\\Type\\FullyQualifiedObjectType' => [
         //     'ArrayAccess' => [

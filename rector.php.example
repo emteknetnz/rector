@@ -36,10 +36,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // paths to refactor; solid alternative to CLI arguments
     $parameters->set(Option::PATHS, [
-        __DIR__ . '/vendor/dnadesign/silverstripe-elemental', // works
+        __DIR__ . '/vendor/dnadesign/silverstripe-elemental',
         __DIR__ . '/vendor/silverstripe/admin',
         __DIR__ . '/vendor/silverstripe/asset-admin',
-        __DIR__ . '/vendor/silverstripe/assets', // works
+        __DIR__ . '/vendor/silverstripe/assets',
         __DIR__ . '/vendor/silverstripe/behat-extension',
         __DIR__ . '/vendor/silverstripe/campaign-admin',
         __DIR__ . '/vendor/silverstripe/cms',
@@ -47,7 +47,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/vendor/silverstripe/elemental-bannerblock',
         __DIR__ . '/vendor/silverstripe/elemental-fileblock',
         __DIR__ . '/vendor/silverstripe/errorpage',
-        __DIR__ . '/vendor/silverstripe/framework', // requires temporarily changes
+        __DIR__ . '/vendor/silverstripe/framework', // requires temporary changes
         __DIR__ . '/vendor/silverstripe/graphql',
         __DIR__ . '/vendor/silverstripe/login-forms',
         __DIR__ . '/vendor/silverstripe/mimevalidator',

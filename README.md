@@ -1,7 +1,12 @@
 # Fork notes:
 - Updated rules/Php81/Rector/FuncCall/NullToStrictStringFuncCallArgRector.php
+- Updated packages/BetterPhpDocParser/PhpDocParser/PhpDocFromTypeDeclarationDecorator.php
 - Added example file rector.php.example
 - Added example file GraphQLInterface.php.example
+
+The purpose of this fork is to get all of Silverstripe PHP 8.1 compatible
+
+You need to run https://github.com/emteknetnz/docblock-return-updater/ first
 
 # Rector - Instant Upgrades and Automated Refactoring
 
