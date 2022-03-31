@@ -6,8 +6,6 @@
 
 The purpose of this fork is to get all of Silverstripe PHP 8.1 compatible while maintaining PHP 7.4 compatiblity.
 
-First you need to run the task in https://github.com/emteknetnz/docblock-return-updater
-
 # Rector - Instant Upgrades and Automated Refactoring
 
 [![Downloads](https://img.shields.io/packagist/dt/rector/rector.svg?style=flat-square)](https://packagist.org/packages/rector/rector)

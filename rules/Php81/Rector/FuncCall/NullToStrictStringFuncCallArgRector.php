@@ -181,13 +181,16 @@ CODE_SAMPLE
         }
         $type = $this->nodeTypeResolver->getType($argValue);
 
-        // Fork: Silverstripe paramtype docblocks are often wrong
-        // e.g. @param string $myparam, when infact it practice it's string|null
-        // we don't know which params should be nullable, so we need ot assume
-        // that all of them are
-        if (!($type instanceof \PhpParser\Node\NullableType)) {
-            var_dump(get_class($type));
-            $type = new \PHPStan\Type\UnionType([$type, new \PHPStan\Type\NullType()]);
+        // Fork: Silverstripe param type and return type docblocks are often wrong
+        if ($argValue instanceof \PhpParser\Node\Expr\Variable) {
+            // e.g. @param string $myparam, when infact it practice it's string|null
+            // we don't know which params should be nullable, so we need to assume
+            // that all of them are
+            if (!($type instanceof \PhpParser\Node\NullableType)) {
+                if (!($type instanceof \PHPStan\Type\UnionType) && !($type instanceof \PHPStan\Type\IntersectionType)) {
+                    $type = new \PHPStan\Type\UnionType([$type, new \PHPStan\Type\NullType()]);
+                }
+            }
         }
 
         if ($this->nodeTypeAnalyzer->isStringyType($type)) {
@@ -205,6 +208,8 @@ CODE_SAMPLE
         if ($this->isCastedReassign($argValue)) {
             return null;
         }
+
+        // Fork: use ternary isntead of casting for some native functions
         if (in_array($funcCall->name->parts[0], self::USE_TERNARY)) {
             // prevent nesting on subsequent runs
             if ($argValue instanceof \PhpParser\Node\Expr\Ternary) {
